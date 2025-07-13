@@ -50,7 +50,7 @@ Esta seção explica como "espiar" a comunicação entre o cliente e o servidor.
     * **Pacotes de Dados:** Pacotes com a flag `[PSH, ACK]`. Clique neles e, no painel de detalhes, expanda a seção "Data" para ver as jogadas (`pedra`, `papel`) e os resultados enviados como texto simples.
     * **Encerramento da Conexão:** Pacotes com a flag `[FIN, ACK]` que aparecem quando você digita `sair` no cliente.
 
-## 🧑‍💻 Registro de Contribuições
+## Registro de Contribuições
 
 Este projeto foi desenvolvido como um esforço colaborativo. Abaixo estão as responsabilidades de cada integrante:
 
