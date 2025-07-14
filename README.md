@@ -59,14 +59,18 @@ Esta seção explica como "espiar" a comunicação entre os clientes e o servido
 
 ## Registro de Contribuições
 
-Este projeto foi desenvolvido como um esforço colaborativo, com a ideia do projeto elaborada por todos os integrantes em conjunto. Abaixo, estão as responsabilidades individuais de cada integrante:
+Este projeto foi desenvolvido como um esforço colaborativo. Vale lembrar que o desenvolvimento da ideia do projeto foi feito por todos os integrantes em conjunto. Abaixo, estão as responsabilidades individuais de cada integrante:
 
-* Matheus Marinho:
+* Matheus Ribeiro Marinho:
     * Desenvolvimento dos códigos `servidor.py` e `cliente.py` primários.
-    * Implementação da lógica de sincronização e arbitragem do jogo.
-    * Configuração do socket para a comunicação TCP no lado do servidor.
+    * Configuração do socket para a comunicação TCP.
       
-* Gustavo Lopez:
-    * Documentação do projeto no `README.md`.
-    * Criação da estrutura inicial do projeto e do repositório no GitHub.
+* Gustavo Adrian Casimiro Lopez:
+    * Criação do repositório no GitHub e documentação do projeto no `README.md`.
     * Atualizações nos códigos `servidor.py` e `cliente1.py` / `cliente2.py` para suportar multiplayer com auxílio de threads.
+
+* Lucca França Possas:
+    * Apresentação do projeto.
+ 
+* Pedro Campos Camargos:
+    * Apresentação do projeto. 
