@@ -4,7 +4,7 @@
 
 Este projeto implementa uma versão multiplayer do clássico jogo Pedra, Papel e Tesoura em Python. A arquitetura utiliza um servidor central e múltiplos clientes, com a comunicação sendo gerenciada pela biblioteca `socket` sobre o protocolo TCP.
 
-O `servidor.py` foi desenvolvido com `threading` para lidar com múltiplos jogadores simultaneamente, atuando como um árbitro da partida: ele recebe as jogadas de dois clientes, compara-as, e envia o resultado individualmente para cada jogador. O `cliente.py` foi adaptado para o fluxo de jogo multiplayer, comunicando-se com o servidor e aguardando o oponente para receber o resultado.
+O `servidor.py` foi desenvolvido com `threading` para lidar com múltiplos jogadores simultaneamente, atuando como um árbitro da partida: ele recebe as jogadas de dois clientes, compara-as, e envia o resultado individualmente para cada jogador. O `cliente.py` foi adaptado e dividido em dois arquivos idênticos, apenas para facilitar a abertura de terminais distintos, para o fluxo de jogo multiplayer, comunicando-se com o servidor e aguardando o oponente para receber o resultado.
 
 Um diferencial do projeto continua sendo a sua aplicação como ferramenta de estudo para redes. Toda a interação entre os dois clientes e o servidor pode ser capturada e analisada com o `Wireshark`, permitindo uma visualização prática de múltiplas conexões TCP simultâneas, trocas de pacotes e a lógica de sincronização gerenciada pelo servidor.
 
