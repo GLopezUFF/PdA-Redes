@@ -1,63 +1,72 @@
-# PdA-Redes
+# Jogo Multiplayer de Pedra, Papel e Tesoura com Análise de Rede
 
 ## Descrição do Projeto
 
-Este projeto implementa o clássico jogo Pedra, Papel e Tesoura em Python, utilizando uma arquitetura cliente-servidor para a comunicação. O projeto faz uso da biblioteca `socket` para estabelecer uma conexão TCP, onde o `servidor.py` gerencia a lógica do jogo e o `cliente.py` envia as jogadas do usuário.
+Este projeto implementa uma versão multiplayer do clássico jogo Pedra, Papel e Tesoura em Python. A arquitetura utiliza um servidor central e múltiplos clientes, com a comunicação sendo gerenciada pela biblioteca `socket` sobre o protocolo TCP.
 
-Um diferencial deste projeto é sua aplicação como ferramenta de estudo para redes de computadores. Toda a interação entre o cliente e o servidor,desde o estabelecimento da conexão até o envio de cada jogada e resultado, pode ser capturada e analisada em tempo real com a ferramenta `Wireshark`. Isso permite uma visualização prática do handshake TCP, da troca de pacotes de dados e do encerramento da conexão.
+O `servidor.py` foi desenvolvido com `threading` para lidar com múltiplos jogadores simultaneamente, atuando como um árbitro da partida: ele recebe as jogadas de dois clientes, compara-as, e envia o resultado individualmente para cada jogador. O `cliente.py` foi adaptado para o fluxo de jogo multiplayer, comunicando-se com o servidor e aguardando o oponente para receber o resultado.
+
+Um diferencial do projeto continua sendo a sua aplicação como ferramenta de estudo para redes. Toda a interação entre os dois clientes e o servidor pode ser capturada e analisada com o `Wireshark`, permitindo uma visualização prática de múltiplas conexões TCP simultâneas, trocas de pacotes e a lógica de sincronização gerenciada pelo servidor.
 
 ## Instruções de Instalação e Uso
 
 Para executar e analisar o projeto, siga os passos abaixo.
 
 ### Pré-requisitos
-É necessária a instalação do `Python 3` e do `Wireshark`.
+É necessária a instalação do `Python 3` e, para a análise de tráfego, do `Wireshark`.
 
 ### 1. Executando o Jogo
 
-Para colocar o jogo para funcionar, você precisará de dois terminais abertos.
+Para colocar o jogo para funcionar, você precisará de três terminais abertos.
 
-1.  Inicie o servidor:
-    Em um terminal, execute o script do servidor. Ele ficará aguardando uma conexão.
+1.  **Inicie o servidor:**
+    Em um terminal, execute o script do servidor. Ele ficará aguardando a conexão de dois jogadores.
     ```bash
     python servidor.py
     ```
 
-2.  Inicie o cliente:
-    Em um segundo terminal, execute o script do cliente para se conectar ao servidor.
+2.  Inicie os dois jogadores:
+    Abra outros dois terminais. Em cada um deles, execute o script do cliente. O primeiro a se conectar será o Jogador 1, e o segundo será o Jogador 2.
+    No segundo terminal (Jogador 1)
     ```bash
-    python cliente.py
+    python cliente1.py
+    ```
+    No terceiro terminal (Jogador 2)
+    ```bash
+    python cliente2.py
     ```
 
 3.  Como Jogar:
-    No terminal do cliente, digite sua jogada: `pedra`, `papel` ou `tesoura`. Em seguida, o resultado da rodada será exibido na tela. Para finalizar, digite `sair`.
+    * No terminal de cada cliente, digite sua jogada: `pedra`, `papel` ou `tesoura`. Após enviar a jogada, o cliente receberá uma mensagem de confirmação e aguardará o oponente. Assim que ambos os jogadores tiverem feito suas jogadas, o resultado da rodada será exibido em ambas as telas. Para finalizar a conexão, digite `sair`.
 
 ### 2. Analisando o Tráfego com Wireshark
 
-Esta seção explica como "espiar" a comunicação entre o cliente e o servidor.
+Esta seção explica como "espiar" a comunicação entre os clientes e o servidor.
 
 1.  **Inicie o `servidor.py`** conforme o passo anterior.
-2.  Abra o Wireshark. Na tela inicial, selecione a interface de rede de loopback. Geralmente, ela tem o nome **`Adapter for loopback traffic`** (no Windows) ou **`lo0`** (no macOS/Linux).
-3.  Inicie a captura clicando no ícone de barbatana de tubarão azul.
-4.  Agora, execute o **`cliente.py`** e jogue algumas rodadas.
+2.  Abra o Wireshark e selecione a interface de rede de loopback (`Adapter for loopback traffic` ou `lo0`).
+3.  Inicie a captura.
+4.  Agora, execute os **dois scripts `cliente.py`** em terminais separados e jogue algumas rodadas.
 5.  Pare a captura no Wireshark.
-6.  Para visualizar apenas o tráfego do nosso jogo, aplique o seguinte filtro na barra de exibição e pressione Enter:
+6.  Para visualizar apenas o tráfego do nosso jogo, aplique o seguinte filtro:
     ```
     tcp.port == 65432
     ```
-7.  **O que observar:**
-    * **Handshake TCP:** Os três primeiros pacotes (`[SYN]`, `[SYN, ACK]`, `[ACK]`) que estabelecem a conexão.
-    * **Pacotes de Dados:** Pacotes com a flag `[PSH, ACK]`. Clique neles e, no painel de detalhes, expanda a seção "Data" para ver as jogadas (`pedra`, `papel`) e os resultados enviados como texto simples.
-    * **Encerramento da Conexão:** Pacotes com a flag `[FIN, ACK]` que aparecem quando você digita `sair` no cliente.
+7.  Adendos:
+    * Múltiplas Conexões: Você verá dois handshakes TCP distintos, um para cada cliente se conectando ao servidor.
+    * Pacotes de Dados: Ao inspecionar os pacotes `[PSH, ACK]`, você poderá ver as jogadas sendo enviadas de diferentes portas de origem (os clientes) para a porta de destino `65432` (o servidor). Você também verá as respostas do servidor (mensagens de espera e resultado) sendo enviadas de volta para cada cliente.
+    * Encerramento da Conexão: Pacotes com a flag `[FIN, ACK]` quando um cliente digita `sair`.
 
 ## Registro de Contribuições
 
-Este projeto foi desenvolvido como um esforço colaborativo. Abaixo estão as responsabilidades de cada integrante:
+Este projeto foi desenvolvido como um esforço colaborativo, com a ideia do projeto elaborada por todos os integrantes em conjunto. Abaixo, estão as responsabilidades individuais de cada integrante:
 
-  Matheus Marinho:
-    * Desenvolvimento dos códigos `servidor.py` e `cliente.py`.
+* Matheus Marinho:
+    * Desenvolvimento dos códigos `servidor.py` e `cliente.py` primários.
+    * Implementação da lógica de sincronização e arbitragem do jogo.
     * Configuração do socket para a comunicação TCP no lado do servidor.
-
-  Gustavo Lopez:
-    * Documentação do projeto no `README.md` e realização dos testes de análise com o Wireshark.
+      
+* Gustavo Lopez:
+    * Documentação do projeto no `README.md`.
     * Criação da estrutura inicial do projeto e do repositório no GitHub.
+    * Atualizações nos códigos `servidor.py` e `cliente1.py` / `cliente2.py` para suportar multiplayer com auxílio de threads.
