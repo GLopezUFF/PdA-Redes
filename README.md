@@ -1,6 +1,6 @@
 # Jogo Multiplayer de Pedra, Papel e Tesoura com Análise de Rede
 
-## Descrição do Projeto
+### Descrição do Projeto
 
 Este projeto implementa uma versão multiplayer do clássico jogo Pedra, Papel e Tesoura em Python. A arquitetura utiliza um servidor central e múltiplos clientes, com a comunicação sendo gerenciada pela biblioteca `socket` sobre o protocolo TCP.
 
